@@ -45,6 +45,12 @@ export const reflect = async (
   const model = new ChatAnthropic({
     model: "claude-3-5-sonnet-20240620",
     temperature: 0,
+    clientOptions: {
+      baseURL: "https://anthropic.helicone.ai",
+      defaultHeaders: {
+        "Helicone-Auth": `Bearer ${process.env.HELICONE_API_KEY}`,
+      },
+    },
   }).bindTools([generateReflectionTool], {
     tool_choice: "generate_reflections",
   });

@@ -32,6 +32,12 @@ export const generateTitle = async (
   const model = new ChatOpenAI({
     model: "gpt-4o-mini",
     temperature: 0,
+    configuration: {
+      basePath: "https://oai.helicone.ai/v1",
+      defaultHeaders: {
+        "Helicone-Auth": `Bearer ${process.env.HELICONE_API_KEY}`,
+      },
+    },
   }).bindTools([generateTitleTool], {
     tool_choice: "generate_title",
   });

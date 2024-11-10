@@ -214,6 +214,18 @@ export async function getModelFromConfig(
     modelProvider,
     temperature,
     maxTokens,
+    configuration: {
+      basePath: "https://oai.helicone.ai/v1",
+      defaultHeaders: {
+        "Helicone-Auth": `Bearer ${process.env.HELICONE_API_KEY}`,
+      },
+    },
+    clientOptions: {
+      baseURL: "https://anthropic.helicone.ai",
+      defaultHeaders: {
+        "Helicone-Auth": `Bearer ${process.env.HELICONE_API_KEY}`,
+      },
+    },
     ...(azureConfig != null
       ? {
           azureOpenAIApiKey: azureConfig.azureOpenAIApiKey,
