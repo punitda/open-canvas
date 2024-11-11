@@ -8,7 +8,11 @@ import { ReflectionGraphAnnotation, ReflectionGraphReturnType } from "./state";
 import { Reflections } from "../../types";
 import { REFLECT_SYSTEM_PROMPT, REFLECT_USER_PROMPT } from "./prompts";
 import { z } from "zod";
-import { ensureStoreInConfig, formatReflections } from "../utils";
+import {
+  ensureStoreInConfig,
+  formatReflections,
+  langfuseHandler,
+} from "../utils";
 import { getArtifactContent } from "../../contexts/utils";
 import { isArtifactMarkdownContent } from "../../lib/artifact_content_types";
 
@@ -77,16 +81,19 @@ export const reflect = async (
       .join("\n\n")
   );
 
-  const result = await model.invoke([
-    {
-      role: "system",
-      content: formattedSystemPrompt,
-    },
-    {
-      role: "user",
-      content: formattedUserPrompt,
-    },
-  ]);
+  const result = await model.invoke(
+    [
+      {
+        role: "system",
+        content: formattedSystemPrompt,
+      },
+      {
+        role: "user",
+        content: formattedUserPrompt,
+      },
+    ],
+    { callbacks: [langfuseHandler] }
+  );
   const reflectionToolCall = result.tool_calls?.[0];
   if (!reflectionToolCall) {
     console.error("FAILED TO GENERATE TOOL CALL", result);

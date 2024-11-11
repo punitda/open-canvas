@@ -1,5 +1,5 @@
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { getModelFromConfig } from "../../utils";
+import { getModelFromConfig, langfuseHandler } from "../../utils";
 import { getArtifactContent } from "../../../contexts/utils";
 import { isArtifactMarkdownContent } from "../../../lib/artifact_content_types";
 import { ArtifactV3, Reflections } from "../../../types";
@@ -103,9 +103,10 @@ export const rewriteArtifactTheme = async (
 
   formattedPrompt = formattedPrompt.replace("{reflections}", memoriesAsString);
 
-  const newArtifactValues = await smallModel.invoke([
-    { role: "user", content: formattedPrompt },
-  ]);
+  const newArtifactValues = await smallModel.invoke(
+    [{ role: "user", content: formattedPrompt }],
+    { callbacks: [langfuseHandler] }
+  );
 
   const newArtifact: ArtifactV3 = {
     ...state.artifact,

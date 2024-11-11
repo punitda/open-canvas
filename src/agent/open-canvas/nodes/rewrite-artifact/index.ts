@@ -8,6 +8,7 @@ import { buildPrompt, createNewArtifactContent, validateState } from "./utils";
 import {
   getFormattedReflections,
   getModelFromConfig,
+  langfuseHandler,
   optionallyGetSystemPromptFromConfig,
 } from "@/agent/utils";
 import { isArtifactMarkdownContent } from "@/lib/artifact_content_types";
@@ -45,10 +46,10 @@ export const rewriteArtifact = async (
     ? `${userSystemPrompt}\n${formattedPrompt}`
     : formattedPrompt;
 
-  const newArtifactResponse = await smallModelWithConfig.invoke([
-    { role: "system", content: fullSystemPrompt },
-    recentHumanMessage,
-  ]);
+  const newArtifactResponse = await smallModelWithConfig.invoke(
+    [{ role: "system", content: fullSystemPrompt }, recentHumanMessage],
+    { callbacks: [langfuseHandler] }
+  );
 
   const newArtifactContent = createNewArtifactContent({
     artifactType,

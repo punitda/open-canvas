@@ -1,5 +1,5 @@
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { getModelFromConfig } from "../../utils";
+import { getModelFromConfig, langfuseHandler } from "../../utils";
 import { getArtifactContent } from "../../../contexts/utils";
 import { Reflections } from "../../../types";
 import {
@@ -58,10 +58,10 @@ You also have the following reflections on style guidelines and general memories
         : NO_ARTIFACT_PROMPT
     );
 
-  const response = await smallModel.invoke([
-    { role: "system", content: formattedPrompt },
-    ...state.messages,
-  ]);
+  const response = await smallModel.invoke(
+    [{ role: "system", content: formattedPrompt }, ...state.messages],
+    { callbacks: [langfuseHandler] }
+  );
 
   return {
     messages: [response],

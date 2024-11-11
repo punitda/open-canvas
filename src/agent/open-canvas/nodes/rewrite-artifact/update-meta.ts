@@ -1,6 +1,10 @@
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { OpenCanvasGraphAnnotation } from "../../state";
-import { formatArtifactContent, getModelFromConfig } from "@/agent/utils";
+import {
+  formatArtifactContent,
+  getModelFromConfig,
+  langfuseHandler,
+} from "@/agent/utils";
 import { getArtifactContent } from "@/contexts/utils";
 import { GET_TITLE_TYPE_REWRITE_ARTIFACT } from "../../prompts";
 import { OPTIONALLY_UPDATE_ARTIFACT_META_SCHEMA } from "./schemas";
@@ -46,10 +50,13 @@ export async function optionallyUpdateArtifactMeta(
     throw new Error("No recent human message found");
   }
 
-  const optionallyUpdateArtifactResponse = await toolCallingModel.invoke([
-    { role: "system", content: optionallyUpdateArtifactMetaPrompt },
-    recentHumanMessage,
-  ]);
+  const optionallyUpdateArtifactResponse = await toolCallingModel.invoke(
+    [
+      { role: "system", content: optionallyUpdateArtifactMetaPrompt },
+      recentHumanMessage,
+    ],
+    { callbacks: [langfuseHandler] }
+  );
 
   return optionallyUpdateArtifactResponse.tool_calls?.[0];
 }

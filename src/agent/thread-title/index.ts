@@ -10,6 +10,7 @@ import { getArtifactContent } from "../../contexts/utils";
 import { isArtifactMarkdownContent } from "../../lib/artifact_content_types";
 import { TITLE_SYSTEM_PROMPT, TITLE_USER_PROMPT } from "./prompts";
 import { TitleGenerationAnnotation, TitleGenerationReturnType } from "./state";
+import { langfuseHandler } from "../utils";
 
 export const generateTitle = async (
   state: typeof TitleGenerationAnnotation.State,
@@ -63,16 +64,19 @@ export const generateTitle = async (
       .join("\n\n")
   ).replace("{artifact_context}", artifactContext);
 
-  const result = await model.invoke([
-    {
-      role: "system",
-      content: TITLE_SYSTEM_PROMPT,
-    },
-    {
-      role: "user",
-      content: formattedUserPrompt,
-    },
-  ]);
+  const result = await model.invoke(
+    [
+      {
+        role: "system",
+        content: TITLE_SYSTEM_PROMPT,
+      },
+      {
+        role: "user",
+        content: formattedUserPrompt,
+      },
+    ],
+    { callbacks: [langfuseHandler] }
+  );
 
   const titleToolCall = result.tool_calls?.[0];
   if (!titleToolCall) {

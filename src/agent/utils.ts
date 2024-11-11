@@ -2,6 +2,9 @@ import { isArtifactCodeContent } from "@/lib/artifact_content_types";
 import { BaseStore, LangGraphRunnableConfig } from "@langchain/langgraph";
 import { ArtifactCodeV3, ArtifactMarkdownV3, Reflections } from "../types";
 import { initChatModel } from "langchain/chat_models/universal";
+import { CallbackHandler } from "langfuse-langchain";
+
+export const langfuseHandler = new CallbackHandler();
 
 export const formatReflections = (
   reflections: Reflections,
