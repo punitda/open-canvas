@@ -5,6 +5,7 @@ import {
   formatReflections,
   getModelConfig,
   getModelFromConfig,
+  langfuseHandler,
 } from "../../utils";
 import { ArtifactCodeV3, ArtifactV3, Reflections } from "../../../types";
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
@@ -102,10 +103,10 @@ export const updateArtifact = async (
   if (!recentHumanMessage) {
     throw new Error("No recent human message found");
   }
-  const updatedArtifact = await smallModel.invoke([
-    { role: "system", content: formattedPrompt },
-    recentHumanMessage,
-  ]);
+  const updatedArtifact = await smallModel.invoke(
+    [{ role: "system", content: formattedPrompt }, recentHumanMessage],
+    { callbacks: [langfuseHandler] }
+  );
 
   const entireTextBefore = currentArtifactContent.code.slice(
     0,

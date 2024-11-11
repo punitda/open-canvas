@@ -1,6 +1,6 @@
 import { BaseMessage } from "@langchain/core/messages";
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { getModelFromConfig } from "../../utils";
+import { getModelFromConfig, langfuseHandler } from "../../utils";
 import { getArtifactContent } from "../../../contexts/utils";
 import { isArtifactMarkdownContent } from "../../../lib/artifact_content_types";
 import {
@@ -102,9 +102,10 @@ export const customAction = async (
     : currentArtifactContent?.code;
   formattedPrompt += `\n\n${CUSTOM_QUICK_ACTION_ARTIFACT_CONTENT_PROMPT.replace("{artifactContent}", artifactContent || "No artifacts generated yet.")}`;
 
-  const newArtifactValues = await smallModel.invoke([
-    { role: "user", content: formattedPrompt },
-  ]);
+  const newArtifactValues = await smallModel.invoke(
+    [{ role: "user", content: formattedPrompt }],
+    { callbacks: [langfuseHandler] }
+  );
 
   if (!currentArtifactContent) {
     console.error("No current artifact content found.");

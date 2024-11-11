@@ -1,5 +1,5 @@
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { getModelFromConfig } from "../../utils";
+import { getModelFromConfig, langfuseHandler } from "../../utils";
 import { getArtifactContent } from "../../../contexts/utils";
 import { isArtifactMarkdownContent } from "../../../lib/artifact_content_types";
 import { Reflections } from "../../../types";
@@ -55,9 +55,10 @@ export const generateFollowup = async (
     );
 
   // TODO: Include the chat history as well.
-  const response = await smallModel.invoke([
-    { role: "user", content: formattedPrompt },
-  ]);
+  const response = await smallModel.invoke(
+    [{ role: "user", content: formattedPrompt }],
+    { callbacks: [langfuseHandler] }
+  );
 
   return {
     messages: [response],

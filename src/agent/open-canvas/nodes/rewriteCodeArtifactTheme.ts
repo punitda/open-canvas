@@ -1,5 +1,5 @@
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
-import { getModelFromConfig } from "../../utils";
+import { getModelFromConfig, langfuseHandler } from "../../utils";
 import { getArtifactContent } from "../../../contexts/utils";
 import { isArtifactCodeContent } from "../../../lib/artifact_content_types";
 import { ArtifactCodeV3, ArtifactV3 } from "../../../types";
@@ -76,9 +76,10 @@ export const rewriteCodeArtifactTheme = async (
     currentArtifactContent.code
   );
 
-  const newArtifactValues = await smallModel.invoke([
-    { role: "user", content: formattedPrompt },
-  ]);
+  const newArtifactValues = await smallModel.invoke(
+    [{ role: "user", content: formattedPrompt }],
+    { callbacks: [langfuseHandler] }
+  );
 
   const newArtifactContent: ArtifactCodeV3 = {
     index: state.artifact.contents.length + 1,

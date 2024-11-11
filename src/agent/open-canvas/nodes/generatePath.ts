@@ -7,7 +7,10 @@ import {
 } from "../prompts";
 import { OpenCanvasGraphAnnotation } from "../state";
 import { z } from "zod";
-import { formatArtifactContentWithTemplate } from "../../utils";
+import {
+  formatArtifactContentWithTemplate,
+  langfuseHandler,
+} from "../../utils";
 import { getArtifactContent } from "../../../contexts/utils";
 import { getModelFromConfig } from "../../utils";
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
@@ -105,12 +108,15 @@ export const generatePath = async (
     }
   );
 
-  const result = await modelWithTool.invoke([
-    {
-      role: "user",
-      content: formattedPrompt,
-    },
-  ]);
+  const result = await modelWithTool.invoke(
+    [
+      {
+        role: "user",
+        content: formattedPrompt,
+      },
+    ],
+    { callbacks: [langfuseHandler] }
+  );
 
   return {
     next: result.route,
