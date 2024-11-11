@@ -1,10 +1,6 @@
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { OpenCanvasGraphAnnotation } from "../../state";
-import {
-  formatArtifactContent,
-  getModelFromConfig,
-  langfuseHandler,
-} from "@/agent/utils";
+import { formatArtifactContent, getModelFromConfig } from "@/agent/utils";
 import { getArtifactContent } from "@/contexts/utils";
 import { GET_TITLE_TYPE_REWRITE_ARTIFACT } from "../../prompts";
 import { OPTIONALLY_UPDATE_ARTIFACT_META_SCHEMA } from "./schemas";

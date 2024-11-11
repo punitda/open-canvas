@@ -8,7 +8,6 @@ import { buildPrompt, createNewArtifactContent, validateState } from "./utils";
 import {
   getFormattedReflections,
   getModelFromConfig,
-  langfuseHandler,
   optionallyGetSystemPromptFromConfig,
 } from "@/agent/utils";
 import { isArtifactMarkdownContent } from "@/lib/artifact_content_types";

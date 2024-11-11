@@ -7,10 +7,7 @@ import {
 } from "../prompts";
 import { OpenCanvasGraphAnnotation } from "../state";
 import { z } from "zod";
-import {
-  formatArtifactContentWithTemplate,
-  langfuseHandler,
-} from "../../utils";
+import { formatArtifactContentWithTemplate } from "../../utils";
 import { getArtifactContent } from "../../../contexts/utils";
 import { getModelFromConfig } from "../../utils";
 import { LangGraphRunnableConfig } from "@langchain/langgraph";

@@ -2,11 +2,7 @@ import { OpenCanvasGraphAnnotation, OpenCanvasGraphReturnType } from "../state";
 import { ArtifactMarkdownV3 } from "../../../types";
 import { getArtifactContent } from "../../../contexts/utils";
 import { isArtifactMarkdownContent } from "../../../lib/artifact_content_types";
-import {
-  getModelConfig,
-  getModelFromConfig,
-  langfuseHandler,
-} from "@/agent/utils";
+import { getModelConfig, getModelFromConfig } from "@/agent/utils";
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
 import { RunnableBinding } from "@langchain/core/runnables";
 import { BaseLanguageModelInput } from "@langchain/core/language_models/base";

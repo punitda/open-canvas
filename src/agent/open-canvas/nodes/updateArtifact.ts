@@ -5,7 +5,6 @@ import {
   formatReflections,
   getModelConfig,
   getModelFromConfig,
-  langfuseHandler,
 } from "../../utils";
 import { ArtifactCodeV3, ArtifactV3, Reflections } from "../../../types";
 import { LangGraphRunnableConfig } from "@langchain/langgraph";
