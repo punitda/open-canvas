@@ -56,13 +56,10 @@ async function handleRequest(req: NextRequest, method: string) {
       }
     }
 
-    console.log("fetching", `${LANGGRAPH_API_URL}/${path}${queryString}`);
     const res = await fetch(
       `${LANGGRAPH_API_URL}/${path}${queryString}`,
       options
     );
-
-    console.log("response status", res.status);
 
     if (res.status >= 400) {
       console.error("ERROR IN PROXY", res.status, res.statusText);
@@ -85,8 +82,6 @@ async function handleRequest(req: NextRequest, method: string) {
     });
 
     headers.delete("content-encoding");
-
-    console.log("response headers", headers);
 
     return new Response(res.body, {
       status: res.status,
