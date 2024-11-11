@@ -103,10 +103,10 @@ export const updateArtifact = async (
   if (!recentHumanMessage) {
     throw new Error("No recent human message found");
   }
-  const updatedArtifact = await smallModel.invoke(
-    [{ role: "system", content: formattedPrompt }, recentHumanMessage],
-    { callbacks: [langfuseHandler] }
-  );
+  const updatedArtifact = await smallModel.invoke([
+    { role: "system", content: formattedPrompt },
+    recentHumanMessage,
+  ]);
 
   const entireTextBefore = currentArtifactContent.code.slice(
     0,

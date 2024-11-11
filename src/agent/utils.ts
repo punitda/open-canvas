@@ -217,6 +217,7 @@ export async function getModelFromConfig(
     modelProvider,
     temperature,
     maxTokens,
+    callbacks: [langfuseHandler],
     configuration: {
       basePath: "https://oai.helicone.ai/v1",
       defaultHeaders: {

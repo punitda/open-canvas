@@ -58,10 +58,10 @@ You also have the following reflections on style guidelines and general memories
         : NO_ARTIFACT_PROMPT
     );
 
-  const response = await smallModel.invoke(
-    [{ role: "system", content: formattedPrompt }, ...state.messages],
-    { callbacks: [langfuseHandler] }
-  );
+  const response = await smallModel.invoke([
+    { role: "system", content: formattedPrompt },
+    ...state.messages,
+  ]);
 
   return {
     messages: [response],

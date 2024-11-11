@@ -96,16 +96,13 @@ export const updateHighlightedText = async (
     throw new Error("Expected a human message");
   }
 
-  const response = await model.invoke(
-    [
-      {
-        role: "system",
-        content: formattedPrompt,
-      },
-      recentUserMessage,
-    ],
-    { callbacks: [langfuseHandler] }
-  );
+  const response = await model.invoke([
+    {
+      role: "system",
+      content: formattedPrompt,
+    },
+    recentUserMessage,
+  ]);
   const responseContent = response.content as string;
 
   const newCurrIndex = state.artifact.contents.length + 1;

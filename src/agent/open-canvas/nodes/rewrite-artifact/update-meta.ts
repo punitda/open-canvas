@@ -50,13 +50,10 @@ export async function optionallyUpdateArtifactMeta(
     throw new Error("No recent human message found");
   }
 
-  const optionallyUpdateArtifactResponse = await toolCallingModel.invoke(
-    [
-      { role: "system", content: optionallyUpdateArtifactMetaPrompt },
-      recentHumanMessage,
-    ],
-    { callbacks: [langfuseHandler] }
-  );
+  const optionallyUpdateArtifactResponse = await toolCallingModel.invoke([
+    { role: "system", content: optionallyUpdateArtifactMetaPrompt },
+    recentHumanMessage,
+  ]);
 
   return optionallyUpdateArtifactResponse.tool_calls?.[0];
 }

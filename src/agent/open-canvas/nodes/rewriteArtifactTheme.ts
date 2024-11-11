@@ -103,10 +103,9 @@ export const rewriteArtifactTheme = async (
 
   formattedPrompt = formattedPrompt.replace("{reflections}", memoriesAsString);
 
-  const newArtifactValues = await smallModel.invoke(
-    [{ role: "user", content: formattedPrompt }],
-    { callbacks: [langfuseHandler] }
-  );
+  const newArtifactValues = await smallModel.invoke([
+    { role: "user", content: formattedPrompt },
+  ]);
 
   const newArtifact: ArtifactV3 = {
     ...state.artifact,

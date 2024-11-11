@@ -108,15 +108,12 @@ export const generatePath = async (
     }
   );
 
-  const result = await modelWithTool.invoke(
-    [
-      {
-        role: "user",
-        content: formattedPrompt,
-      },
-    ],
-    { callbacks: [langfuseHandler] }
-  );
+  const result = await modelWithTool.invoke([
+    {
+      role: "user",
+      content: formattedPrompt,
+    },
+  ]);
 
   return {
     next: result.route,

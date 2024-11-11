@@ -55,10 +55,9 @@ export const generateFollowup = async (
     );
 
   // TODO: Include the chat history as well.
-  const response = await smallModel.invoke(
-    [{ role: "user", content: formattedPrompt }],
-    { callbacks: [langfuseHandler] }
-  );
+  const response = await smallModel.invoke([
+    { role: "user", content: formattedPrompt },
+  ]);
 
   return {
     messages: [response],

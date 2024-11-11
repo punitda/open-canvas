@@ -39,6 +39,7 @@ export const generateTitle = async (
         "Helicone-Auth": `Bearer ${process.env.HELICONE_API_KEY}`,
       },
     },
+    callbacks: [langfuseHandler],
   }).bindTools([generateTitleTool], {
     tool_choice: "generate_title",
   });
@@ -64,19 +65,16 @@ export const generateTitle = async (
       .join("\n\n")
   ).replace("{artifact_context}", artifactContext);
 
-  const result = await model.invoke(
-    [
-      {
-        role: "system",
-        content: TITLE_SYSTEM_PROMPT,
-      },
-      {
-        role: "user",
-        content: formattedUserPrompt,
-      },
-    ],
-    { callbacks: [langfuseHandler] }
-  );
+  const result = await model.invoke([
+    {
+      role: "system",
+      content: TITLE_SYSTEM_PROMPT,
+    },
+    {
+      role: "user",
+      content: formattedUserPrompt,
+    },
+  ]);
 
   const titleToolCall = result.tool_calls?.[0];
   if (!titleToolCall) {

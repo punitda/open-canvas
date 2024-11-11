@@ -55,6 +55,7 @@ export const reflect = async (
         "Helicone-Auth": `Bearer ${process.env.HELICONE_API_KEY}`,
       },
     },
+    callbacks: [langfuseHandler],
   }).bindTools([generateReflectionTool], {
     tool_choice: "generate_reflections",
   });
@@ -81,19 +82,16 @@ export const reflect = async (
       .join("\n\n")
   );
 
-  const result = await model.invoke(
-    [
-      {
-        role: "system",
-        content: formattedSystemPrompt,
-      },
-      {
-        role: "user",
-        content: formattedUserPrompt,
-      },
-    ],
-    { callbacks: [langfuseHandler] }
-  );
+  const result = await model.invoke([
+    {
+      role: "system",
+      content: formattedSystemPrompt,
+    },
+    {
+      role: "user",
+      content: formattedUserPrompt,
+    },
+  ]);
   const reflectionToolCall = result.tool_calls?.[0];
   if (!reflectionToolCall) {
     console.error("FAILED TO GENERATE TOOL CALL", result);

@@ -102,10 +102,9 @@ export const customAction = async (
     : currentArtifactContent?.code;
   formattedPrompt += `\n\n${CUSTOM_QUICK_ACTION_ARTIFACT_CONTENT_PROMPT.replace("{artifactContent}", artifactContent || "No artifacts generated yet.")}`;
 
-  const newArtifactValues = await smallModel.invoke(
-    [{ role: "user", content: formattedPrompt }],
-    { callbacks: [langfuseHandler] }
-  );
+  const newArtifactValues = await smallModel.invoke([
+    { role: "user", content: formattedPrompt },
+  ]);
 
   if (!currentArtifactContent) {
     console.error("No current artifact content found.");

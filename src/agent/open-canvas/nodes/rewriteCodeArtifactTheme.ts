@@ -76,10 +76,9 @@ export const rewriteCodeArtifactTheme = async (
     currentArtifactContent.code
   );
 
-  const newArtifactValues = await smallModel.invoke(
-    [{ role: "user", content: formattedPrompt }],
-    { callbacks: [langfuseHandler] }
-  );
+  const newArtifactValues = await smallModel.invoke([
+    { role: "user", content: formattedPrompt },
+  ]);
 
   const newArtifactContent: ArtifactCodeV3 = {
     index: state.artifact.contents.length + 1,

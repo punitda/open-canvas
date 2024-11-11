@@ -46,10 +46,10 @@ export const rewriteArtifact = async (
     ? `${userSystemPrompt}\n${formattedPrompt}`
     : formattedPrompt;
 
-  const newArtifactResponse = await smallModelWithConfig.invoke(
-    [{ role: "system", content: fullSystemPrompt }, recentHumanMessage],
-    { callbacks: [langfuseHandler] }
-  );
+  const newArtifactResponse = await smallModelWithConfig.invoke([
+    { role: "system", content: fullSystemPrompt },
+    recentHumanMessage,
+  ]);
 
   const newArtifactContent = createNewArtifactContent({
     artifactType,
